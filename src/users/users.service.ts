@@ -48,9 +48,11 @@ export class UsersService {
     console.log(`Contraseña generada: ${rawPassword}`);
 
     return savedUser;
+  }
 
-    
-
+  getAllUsers() {
+    return this.userRepository.find();
+   
   }
 
   private generateRandomPassword(): string {
