@@ -16,6 +16,10 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["node", "jest", "supertest"] // Incluye tipos necesarios
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"], // Incluye archivos fuente y de pruebas
+  "exclude": ["node_modules"] // Excluye directorios innecesarios
 }
