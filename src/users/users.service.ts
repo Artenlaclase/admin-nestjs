@@ -48,6 +48,9 @@ export class UsersService {
     console.log(`Contraseña generada: ${rawPassword}`);
 
     return savedUser;
+
+    
+
   }
 
   private generateRandomPassword(): string {
