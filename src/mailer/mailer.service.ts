@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Module } from "@nestjs/common";
 import * as nodemailer from "nodemailer";
 
 @Injectable()
@@ -29,4 +29,11 @@ export class MailerService {
             throw error;
         }
     }
+
+   
 }
+ @Module({
+        providers: [MailerService],
+        exports: [MailerService], // Esto permite que otros módulos usen MailerService
+      })
+      export class MailerModule {}
