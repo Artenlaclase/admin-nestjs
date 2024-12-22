@@ -4,12 +4,15 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create.user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { MailerService } from '../mailer/mailer.service';
+import { generateResetToken } from './utils/token-utils';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly mailerService: MailerService,
   ) {}
 
   async createUser(createUserDto: CreateUserDto) {
@@ -29,6 +32,7 @@ export class UsersService {
 
     // Generar contraseña aleatoria
     const rawPassword = this.generateRandomPassword();
+    const resetToken = generateResetToken();
 
     // Hashear la contraseña
     const hashedPassword = await bcrypt.hash(rawPassword, 10);
@@ -43,12 +47,21 @@ export class UsersService {
     });
 
     const savedUser = await this.userRepository.save(user);
+ // Enviar correo con credenciales
+ const resetUrl = `https://miapp.com/reset-password?token=${resetToken}`;
+ const emailHtml = `
+   <h1>Bienvenido, ${nombre}!</h1>
+   <p>Estas son tus credenciales iniciales:</p>
+   <p>Contraseña: ${rawPassword}</p>
+   <p><a href="${resetUrl}">Haz clic aquí para cambiar tu contraseña.</a></p>
+ `;
 
-    // Aquí enviarías el correo con las credenciales iniciales (opcional)
-    console.log(`Contraseña generada: ${rawPassword}`);
+ await this.mailerService.sendMail(correo, 'Bienvenido a la aplicación', emailHtml);
 
-    return savedUser;
-  }
+ console.log(`Usuario creado con contraseña: ${rawPassword}`);
+ return savedUser;
+}
+
 
   getAllUsers() {
     return this.userRepository.find();
