@@ -47,16 +47,16 @@ export class UsersService {
     });
 
     const savedUser = await this.userRepository.save(user);
- // Enviar correo con credenciales
- const resetUrl = `https://miapp.com/reset-password?token=${resetToken}`;
- const emailHtml = `
-   <h1>Bienvenido, ${nombre}!</h1>
-   <p>Estas son tus credenciales iniciales:</p>
-   <p>Contraseña: ${rawPassword}</p>
-   <p><a href="${resetUrl}">Haz clic aquí para cambiar tu contraseña.</a></p>
- `;
+//  // Enviar correo con credenciales
+//  const resetUrl = `https://miapp.com/reset-password?token=${resetToken}`;
+//  const emailHtml = `
+//    <h1>Bienvenido, ${nombre}!</h1>
+//    <p>Estas son tus credenciales iniciales:</p>
+//    <p>Contraseña: ${rawPassword}</p>
+//    <p><a href="${resetUrl}">Haz clic aquí para cambiar tu contraseña.</a></p>
+//  `;
 
- await this.mailerService.sendMail(correo, 'Bienvenido a la aplicación', emailHtml);
+//  await this.mailerService.sendMail(correo, 'Bienvenido a la aplicación', emailHtml);
 
  console.log(`Usuario creado con contraseña: ${rawPassword}`);
  return savedUser;
